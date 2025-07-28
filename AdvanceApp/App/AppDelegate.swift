@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  AdvanceApp
 //
-//  Created by 노가현 on 7/25/25.
+//  Created by 서광용 on 7/25/25.
 //
 
 import CoreData
