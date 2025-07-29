@@ -4,6 +4,7 @@
 //
 //  Created by 서광용 on 7/29/25.
 // MARK: CollectionView + SearchBar
+// searchBar는 만약 커지면 추후 분리 예정
 
 import UIKit
 import SnapKit
