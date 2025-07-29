@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7925C5FD2E378821000212AF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C5FC2E378821000212AF /* SnapKit */; };
+		7925C6002E378836000212AF /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C5FF2E378836000212AF /* Then */; };
+		7925C6032E378955000212AF /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C6022E378955000212AF /* RxCocoa */; };
+		7925C6052E378955000212AF /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C6042E378955000212AF /* RxRelay */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E8FB517E2E336EDE0045A197 /* AdvanceApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdvanceApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -14,7 +21,7 @@
 		E8FB51A92E336EDF0045A197 /* Exceptions for "AdvanceApp" folder in "AdvanceApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				App/Info.plist,
 			);
 			target = E8FB517D2E336EDE0045A197 /* AdvanceApp */;
 		};
@@ -36,6 +43,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7925C6032E378955000212AF /* RxCocoa in Frameworks */,
+				7925C5FD2E378821000212AF /* SnapKit in Frameworks */,
+				7925C6052E378955000212AF /* RxRelay in Frameworks */,
+				7925C6002E378836000212AF /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -48,7 +59,9 @@
 				E8FB51802E336EDE0045A197 /* AdvanceApp */,
 				E8FB517F2E336EDE0045A197 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		E8FB517F2E336EDE0045A197 /* Products */ = {
 			isa = PBXGroup;
@@ -78,6 +91,10 @@
 			);
 			name = AdvanceApp;
 			packageProductDependencies = (
+				7925C5FC2E378821000212AF /* SnapKit */,
+				7925C5FF2E378836000212AF /* Then */,
+				7925C6022E378955000212AF /* RxCocoa */,
+				7925C6042E378955000212AF /* RxRelay */,
 			);
 			productName = AdvanceApp;
 			productReference = E8FB517E2E336EDE0045A197 /* AdvanceApp.app */;
@@ -107,6 +124,11 @@
 			);
 			mainGroup = E8FB51752E336EDE0045A197;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7925C5FB2E378821000212AF /* XCRemoteSwiftPackageReference "SnapKit" */,
+				7925C5FE2E378836000212AF /* XCRemoteSwiftPackageReference "Then" */,
+				7925C6012E378955000212AF /* XCRemoteSwiftPackageReference "RxSwift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E8FB517F2E336EDE0045A197 /* Products */;
 			projectDirPath = "";
@@ -147,11 +169,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y774295X22;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AdvanceApp/Info.plist;
+				INFOPLIST_FILE = AdvanceApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -159,9 +182,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hxxru.AdvanceApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -174,11 +201,12 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y774295X22;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AdvanceApp/Info.plist;
+				INFOPLIST_FILE = AdvanceApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -186,9 +214,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.hxxru.AdvanceApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -335,6 +367,56 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7925C5FB2E378821000212AF /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		7925C5FE2E378836000212AF /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		7925C6012E378955000212AF /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7925C5FC2E378821000212AF /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7925C5FB2E378821000212AF /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		7925C5FF2E378836000212AF /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7925C5FE2E378836000212AF /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		7925C6022E378955000212AF /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7925C6012E378955000212AF /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		7925C6042E378955000212AF /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7925C6012E378955000212AF /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E8FB51762E336EDE0045A197 /* Project object */;
 }
