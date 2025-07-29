@@ -21,7 +21,7 @@
 		E8FB51A92E336EDF0045A197 /* Exceptions for "AdvanceApp" folder in "AdvanceApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Info.plist,
+				App/Info.plist,
 			);
 			target = E8FB517D2E336EDE0045A197 /* AdvanceApp */;
 		};
@@ -59,7 +59,9 @@
 				E8FB51802E336EDE0045A197 /* AdvanceApp */,
 				E8FB517F2E336EDE0045A197 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		E8FB517F2E336EDE0045A197 /* Products */ = {
 			isa = PBXGroup;
@@ -167,7 +169,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y774295X22;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AdvanceApp/Info.plist;
+				INFOPLIST_FILE = AdvanceApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -199,7 +201,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = Y774295X22;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = AdvanceApp/Info.plist;
+				INFOPLIST_FILE = AdvanceApp/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
