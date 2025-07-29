@@ -10,8 +10,16 @@ import SnapKit
 import Then
 
 class SavedBooksViewController: UIViewController {
+  private let label = UILabel().then {
+    $0.text = "담은 책 화면"
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.backgroundColor = .white
+    view.addSubview(label)
+    label.snp.makeConstraints {
+      $0.center.equalTo(view.safeAreaLayoutGuide)
+    }
   }
 }

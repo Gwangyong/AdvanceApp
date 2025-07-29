@@ -15,7 +15,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     let window = UIWindow(windowScene: windowScene)
     
     let bookSearchVC = UINavigationController(rootViewController: BookSearchViewController())
+    bookSearchVC.tabBarItem = UITabBarItem(title: "책 검색", image: UIImage(systemName: "book"), tag: 0)
+    
     let savedBooksVC = UINavigationController(rootViewController: SavedBooksViewController())
+    savedBooksVC.tabBarItem = UITabBarItem(title: "담은 책", image: UIImage(systemName: "bookmark"), tag: 1)
     
     let tabBarController = RootTabBarController()
     tabBarController.viewControllers = [bookSearchVC, savedBooksVC] // viewControllers: 각 탭에 들어갈 VC 화면들을 담는 배열
