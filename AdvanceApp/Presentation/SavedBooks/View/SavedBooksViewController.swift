@@ -16,6 +16,8 @@ class SavedBooksViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    addTabBarTopBorder() // ViewController+UI
+    
     view.backgroundColor = .white
     view.addSubview(label)
     label.snp.makeConstraints {

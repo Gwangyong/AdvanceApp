@@ -16,7 +16,6 @@ class BookSearchViewController: UIViewController {
     $0.placeholder = "책 제목"
     $0.searchBarStyle = .minimal
     $0.delegate = self
-    
   }
   
   private lazy var collectionView = UICollectionView(
@@ -50,18 +49,23 @@ class BookSearchViewController: UIViewController {
     )
   }
   
+  private let tabBarTopBorder = UIView().then {
+    $0.backgroundColor = .systemGray4
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
     setupLayout()
     setupSearchBar()
+    addTabBarTopBorder() // ViewController+UI
   }
   
   // MARK: setupUI
   private func setupUI() {
     view.backgroundColor = .white
     
-    [searchBar, collectionView].forEach{ view.addSubview($0) }
+    [searchBar, collectionView, tabBarTopBorder].forEach{ view.addSubview($0) }
   }
   
   // MARK: setupLayout
@@ -74,6 +78,12 @@ class BookSearchViewController: UIViewController {
       $0.top.equalTo(searchBar.snp.bottom)
       $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
+    }
+    
+    tabBarTopBorder.snp.makeConstraints {
+      $0.leading.trailing.equalTo(view)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+      $0.height.equalTo(0.5)
     }
   }
   
