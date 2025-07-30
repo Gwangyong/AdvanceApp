@@ -11,6 +11,7 @@
 		7925C6002E378836000212AF /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C5FF2E378836000212AF /* Then */; };
 		7925C6032E378955000212AF /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C6022E378955000212AF /* RxCocoa */; };
 		7925C6052E378955000212AF /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C6042E378955000212AF /* RxRelay */; };
+		7925C7452E3A291E000212AF /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 7925C7442E3A291E000212AF /* Alamofire */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7925C7452E3A291E000212AF /* Alamofire in Frameworks */,
 				7925C6032E378955000212AF /* RxCocoa in Frameworks */,
 				7925C5FD2E378821000212AF /* SnapKit in Frameworks */,
 				7925C6052E378955000212AF /* RxRelay in Frameworks */,
@@ -95,6 +97,7 @@
 				7925C5FF2E378836000212AF /* Then */,
 				7925C6022E378955000212AF /* RxCocoa */,
 				7925C6042E378955000212AF /* RxRelay */,
+				7925C7442E3A291E000212AF /* Alamofire */,
 			);
 			productName = AdvanceApp;
 			productReference = E8FB517E2E336EDE0045A197 /* AdvanceApp.app */;
@@ -128,6 +131,7 @@
 				7925C5FB2E378821000212AF /* XCRemoteSwiftPackageReference "SnapKit" */,
 				7925C5FE2E378836000212AF /* XCRemoteSwiftPackageReference "Then" */,
 				7925C6012E378955000212AF /* XCRemoteSwiftPackageReference "RxSwift" */,
+				7925C7432E3A291E000212AF /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = E8FB517F2E336EDE0045A197 /* Products */;
@@ -393,6 +397,14 @@
 				minimumVersion = 6.9.0;
 			};
 		};
+		7925C7432E3A291E000212AF /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -415,6 +427,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7925C6012E378955000212AF /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxRelay;
+		};
+		7925C7442E3A291E000212AF /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7925C7432E3A291E000212AF /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
