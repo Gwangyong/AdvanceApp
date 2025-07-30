@@ -20,15 +20,24 @@ class RecentBookSectionHeader: UICollectionReusableView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    addSubview(titleLabel)
-    
-    titleLabel.snp.makeConstraints {
-      $0.top.equalToSuperview().offset(10)
-      $0.leading.trailing.bottom.equalToSuperview()
-    }
+    setupUI()
+    setupLayout()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: setupUI
+  private func setupUI() {
+    addSubview(titleLabel)
+  }
+  
+  // MARK: setupLayout
+  private func setupLayout() {
+    titleLabel.snp.makeConstraints {
+      $0.top.equalToSuperview().offset(10)
+      $0.leading.trailing.bottom.equalToSuperview()
+    }
   }
 }

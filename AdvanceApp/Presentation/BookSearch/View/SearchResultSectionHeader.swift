@@ -11,7 +11,11 @@ import Then
 
 class SearchResultSectionHeader: UICollectionReusableView {
   static let id = "SearchResultSectionHeader"
-
+  
+  private let divider = UIView().then {
+    $0.backgroundColor = .systemGray4
+  }
+  
   let titleLabel = UILabel().then {
     $0.text = "검색 결과"
     $0.font = .boldSystemFont(ofSize: 20)
@@ -20,15 +24,29 @@ class SearchResultSectionHeader: UICollectionReusableView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    addSubview(titleLabel)
+    setupUI()
+    setupLayout()
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  // MARK: setupUI
+  private func setupUI() {
+    [divider, titleLabel].forEach { addSubview($0) }
+  }
+  
+  // MARK: setupLayout
+  private func setupLayout() {
+    divider.snp.makeConstraints {
+      $0.top.leading.trailing.equalToSuperview()
+      $0.height.equalTo(0.5)
+    }
     
     titleLabel.snp.makeConstraints {
       $0.top.equalToSuperview().offset(10)
       $0.leading.trailing.bottom.equalToSuperview()
     }
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
   }
 }
