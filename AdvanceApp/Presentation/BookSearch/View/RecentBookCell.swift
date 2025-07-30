@@ -13,6 +13,7 @@ class RecentBookCell: UICollectionViewCell {
   static let id = "RecentBookCell"
   
   private let bookImageView = UIImageView().then {
+    $0.image = UIImage(named: "1")
     $0.contentMode = .scaleAspectFill
     $0.clipsToBounds  = true
     $0.backgroundColor = .white
@@ -21,7 +22,7 @@ class RecentBookCell: UICollectionViewCell {
   }
   
   private let bookTitleLabel = UILabel().then {
-    $0.text = "[국내도서] 궤도"
+    $0.text = "[국내도서] 혼모노"
     $0.font = .systemFont(ofSize: 14, weight: .regular)
   }
   
@@ -35,15 +36,18 @@ class RecentBookCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  // MARK: setupUI
   private func setupUI() {
     backgroundColor = .systemBackground
     
     [bookImageView, bookTitleLabel].forEach { contentView.addSubview($0) }
   }
   
+  // MARK: setupLayout
   private func setupLayout() {
     bookImageView.snp.makeConstraints {
       $0.top.leading.trailing.equalToSuperview()
+      $0.height.equalTo(bookImageView.snp.width).multipliedBy(1.5) // 2:3비율
     }
     
     bookTitleLabel.snp.makeConstraints {

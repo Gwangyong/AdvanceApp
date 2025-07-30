@@ -87,6 +87,7 @@ class BookSearchViewController: UIViewController {
   }
   
   // TODO: 아래 2개의 레이아웃에 중복된 헤더 부분은 공용 메서드로 분류하자
+  // TODO: 코드가 너무 기니까.. 다른 파일로 분류하면 좋을 듯
   // MARK: - 최근 본 책의 Layout
   private func createRecentBookSectionLayout() -> NSCollectionLayoutSection {
     // Item: width는 그룹 너비의 30%, height는 콘텐츠에 따라 유동적으로. 초기값 180 (늘어나기 가능)
