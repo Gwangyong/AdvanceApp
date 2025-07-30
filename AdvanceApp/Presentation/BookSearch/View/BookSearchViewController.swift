@@ -32,7 +32,7 @@ class BookSearchViewController: UIViewController {
       }
     }
   ).then {
-    $0.backgroundColor = .red
+    $0.backgroundColor = .systemBackground
     $0.delegate = self
     $0.dataSource = self
     $0.register(RecentBookCell.self, forCellWithReuseIdentifier: RecentBookCell.id)
@@ -99,7 +99,7 @@ class BookSearchViewController: UIViewController {
     // Group: width는 그룹 너비에 딱 맞게 100%, height는 유동적으로, 초기값 200
     // 하나의 그룹에 들어갈 item의 개수는, 디바이스 크기와 item과 group의 width값과 여백에 따라 달라짐 유동적?
     let groupSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(0.3),
+      widthDimension: .fractionalWidth(0.25),
       heightDimension: .estimated(180)
     )
     let group = NSCollectionLayoutGroup.horizontal( // horizontal(가로 방향 배치)

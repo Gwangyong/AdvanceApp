@@ -12,12 +12,43 @@ import Then
 class RecentBookCell: UICollectionViewCell {
   static let id = "RecentBookCell"
   
+  private let bookImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.clipsToBounds  = true
+    $0.backgroundColor = .gray
+    $0.layer.borderWidth = 0.3
+    $0.layer.borderColor = UIColor.lightGray.cgColor
+  }
+  
+  private let bookTitle = UILabel().then {
+    $0.text = "[국내도서] 궤도"
+    $0.font = .systemFont(ofSize: 14, weight: .regular)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
-    backgroundColor = .blue
+    setupUI()
+    setupLayout()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  private func setupUI() {
+    backgroundColor = .systemBackground
+    
+    [bookImageView, bookTitle].forEach { contentView.addSubview($0) }
+  }
+  
+  private func setupLayout() {
+    bookImageView.snp.makeConstraints {
+      $0.top.leading.trailing.equalToSuperview()
+    }
+    
+    bookTitle.snp.makeConstraints {
+      $0.top.equalTo(bookImageView.snp.bottom).offset(8)
+      $0.leading.trailing.bottom.equalToSuperview()
+    }
   }
 }
