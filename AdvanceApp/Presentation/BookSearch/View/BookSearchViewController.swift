@@ -91,18 +91,16 @@ class BookSearchViewController: UIViewController {
   private func createRecentBookSectionLayout() -> NSCollectionLayoutSection {
     // Item: width는 그룹 너비의 30%, height는 콘텐츠에 따라 유동적으로. 초기값 180 (늘어나기 가능)
     let itemSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(0.3),
-      heightDimension: .estimated(180)
+      widthDimension: .fractionalWidth(1),
+      heightDimension: .fractionalHeight(1)
     )
     let item = NSCollectionLayoutItem(layoutSize: itemSize)
-    // 딱 붙지 않게끔 여백줌
-//    item.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 5, bottom: 0, trailing: 5)
     
     // Group: width는 그룹 너비에 딱 맞게 100%, height는 유동적으로, 초기값 200
     // 하나의 그룹에 들어갈 item의 개수는, 디바이스 크기와 item과 group의 width값과 여백에 따라 달라짐 유동적?
     let groupSize = NSCollectionLayoutSize(
-      widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(200)
+      widthDimension: .fractionalWidth(0.3),
+      heightDimension: .estimated(180)
     )
     let group = NSCollectionLayoutGroup.horizontal( // horizontal(가로 방향 배치)
       layoutSize: groupSize,
@@ -114,7 +112,7 @@ class BookSearchViewController: UIViewController {
     // orthogonal은, CollectionView와 수직 방향으로 스크롤. 콜렉션뷰가 세로 스크롤이다? -> 이 section은 가로 스크롤
     // .continuous: 가로로 스르르~하는 자연스러운 스크롤. 뚝뚝 끊기지않는
     section.orthogonalScrollingBehavior = .continuous
-    section.interGroupSpacing = 8
+    section.interGroupSpacing = 8 // group끼리 붙지 않도록 spacing
     section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 16, bottom: 10, trailing: 16) // 여백줌. 그냥 오토레이아웃으로 제약줬다 생각?
     
     let headerSize = NSCollectionLayoutSize(
@@ -184,7 +182,7 @@ extension BookSearchViewController: UICollectionViewDataSource {
   
   // 섹션 안에 있는 아이템 개수
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    4
+    8
   }
   
   // 섹션 헤더를 어떻게 보여줄지
