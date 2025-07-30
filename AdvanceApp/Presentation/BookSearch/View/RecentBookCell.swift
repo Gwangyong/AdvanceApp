@@ -15,12 +15,12 @@ class RecentBookCell: UICollectionViewCell {
   private let bookImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFill
     $0.clipsToBounds  = true
-    $0.backgroundColor = .gray
+    $0.backgroundColor = .white
     $0.layer.borderWidth = 0.3
     $0.layer.borderColor = UIColor.lightGray.cgColor
   }
   
-  private let bookTitle = UILabel().then {
+  private let bookTitleLabel = UILabel().then {
     $0.text = "[국내도서] 궤도"
     $0.font = .systemFont(ofSize: 14, weight: .regular)
   }
@@ -38,7 +38,7 @@ class RecentBookCell: UICollectionViewCell {
   private func setupUI() {
     backgroundColor = .systemBackground
     
-    [bookImageView, bookTitle].forEach { contentView.addSubview($0) }
+    [bookImageView, bookTitleLabel].forEach { contentView.addSubview($0) }
   }
   
   private func setupLayout() {
@@ -46,7 +46,7 @@ class RecentBookCell: UICollectionViewCell {
       $0.top.leading.trailing.equalToSuperview()
     }
     
-    bookTitle.snp.makeConstraints {
+    bookTitleLabel.snp.makeConstraints {
       $0.top.equalTo(bookImageView.snp.bottom).offset(8)
       $0.leading.trailing.bottom.equalToSuperview()
     }
