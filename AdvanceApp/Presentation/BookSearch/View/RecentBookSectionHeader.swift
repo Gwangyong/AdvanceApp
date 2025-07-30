@@ -11,10 +11,21 @@ import Then
 
 class RecentBookSectionHeader: UICollectionReusableView {
   static let id = "RecentBookSectionHeader"
-
+  
+  let titleLabel = UILabel().then {
+    $0.text = "최근 본 책"
+    $0.font = .boldSystemFont(ofSize: 20)
+    $0.textColor = .label
+  }
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    addSubview(titleLabel)
+    
+    titleLabel.snp.makeConstraints {
+      $0.top.equalToSuperview().offset(10)
+      $0.leading.trailing.bottom.equalToSuperview()
+    }
   }
   
   required init?(coder: NSCoder) {

@@ -39,14 +39,14 @@ class BookSearchViewController: UIViewController {
     $0.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.id)
     
     $0.register(
-      RecentBookCell.self,
-      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader ,
-      withReuseIdentifier: RecentBookCell.id
+      RecentBookSectionHeader.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: RecentBookSectionHeader.id
     )
     $0.register(
-      SearchResultCell.self,
+      SearchResultSectionHeader.self,
       forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-      withReuseIdentifier: SearchResultCell.id
+      withReuseIdentifier: SearchResultSectionHeader.id
     )
   }
   
@@ -71,7 +71,7 @@ class BookSearchViewController: UIViewController {
     }
     
     collectionView.snp.makeConstraints {
-      $0.top.equalTo(searchBar.snp.bottom).offset(16)
+      $0.top.equalTo(searchBar.snp.bottom)
       $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
@@ -119,7 +119,7 @@ class BookSearchViewController: UIViewController {
     
     let headerSize = NSCollectionLayoutSize(
       widthDimension: .fractionalWidth(1.0),
-      heightDimension: .estimated(60)
+      heightDimension: .estimated(60) // 최초 60. Label 넣으면 그에 맞춰서 작으면 작아지고 커지면 커짐
     )
     let header = NSCollectionLayoutBoundarySupplementaryItem(
       layoutSize: headerSize,
@@ -185,6 +185,28 @@ extension BookSearchViewController: UICollectionViewDataSource {
   // 섹션 안에 있는 아이템 개수
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     4
+  }
+  
+  // 섹션 헤더를 어떻게 보여줄지
+  func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    switch indexPath.section {
+    case 0:
+      guard let header = collectionView.dequeueReusableSupplementaryView(
+        ofKind: kind,
+        withReuseIdentifier: RecentBookSectionHeader.id,
+        for: indexPath
+      ) as? RecentBookSectionHeader else { return UICollectionReusableView() }
+      return header
+    case 1:
+      guard let header = collectionView.dequeueReusableSupplementaryView(
+        ofKind: kind,
+        withReuseIdentifier: SearchResultSectionHeader.id,
+        for: indexPath
+      ) as? SearchResultSectionHeader else { return UICollectionReusableView() }
+      return header
+    default:
+      return UICollectionReusableView()
+    }
   }
   
   // 아이템의 셀을 어떻게 보여줄지
