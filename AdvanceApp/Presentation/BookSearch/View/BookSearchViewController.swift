@@ -33,24 +33,39 @@ class BookSearchViewController: UIViewController {
     }
   ).then {
     $0.backgroundColor = .red
+    $0.delegate = self
+    $0.dataSource = self
+    $0.register(RecentBookCell.self, forCellWithReuseIdentifier: RecentBookCell.id)
+    $0.register(SearchResultCell.self, forCellWithReuseIdentifier: SearchResultCell.id)
+    
+    $0.register(
+      RecentBookCell.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader ,
+      withReuseIdentifier: RecentBookCell.id
+    )
+    $0.register(
+      SearchResultCell.self,
+      forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+      withReuseIdentifier: SearchResultCell.id
+    )
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    configureUI()
-    configureLayout()
-    configureSearchBar()
+    setupUI()
+    setupLayout()
+    setupSearchBar()
   }
   
-  // MARK: configureUI
-  private func configureUI() {
+  // MARK: setupUI
+  private func setupUI() {
     view.backgroundColor = .white
     
     [searchBar, collectionView].forEach{ view.addSubview($0) }
   }
   
-  // MARK: configureLayout
-  private func configureLayout() {
+  // MARK: setupLayout
+  private func setupLayout() {
     searchBar.snp.makeConstraints {
       $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
     }
@@ -63,7 +78,7 @@ class BookSearchViewController: UIViewController {
   }
   
   // MARK: - SearchBar 자동완성 끄기
-  private func configureSearchBar() {
+  private func setupSearchBar() {
     if let textField = searchBar.value(forKey: "searchField") as? UITextField { // SearchBar에 내부적으로 있는 TextField
       textField.autocorrectionType = .no       // 자동 수정 끄기
       textField.autocapitalizationType = .none // 자동 대문자 끄기
@@ -156,3 +171,41 @@ extension BookSearchViewController: UISearchBarDelegate {
   
 }
 
+extension BookSearchViewController: UICollectionViewDelegate {
+  
+}
+
+extension BookSearchViewController: UICollectionViewDataSource {
+  
+  // 섹션의 개수
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    2
+  }
+  
+  // 섹션 안에 있는 아이템 개수
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    4
+  }
+  
+  // 아이템의 셀을 어떻게 보여줄지
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    switch indexPath.section {
+    case 0:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: RecentBookCell.id,
+        for: indexPath
+      ) as? RecentBookCell else { return UICollectionViewCell() }
+      return cell
+    case 1:
+      guard let cell = collectionView.dequeueReusableCell(
+        withReuseIdentifier: SearchResultCell.id,
+        for: indexPath
+      ) as? SearchResultCell else { return UICollectionViewCell() }
+      return cell
+    default:
+      return UICollectionViewCell()
+    }
+  }
+  
+  
+}
