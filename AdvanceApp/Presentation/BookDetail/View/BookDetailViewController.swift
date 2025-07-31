@@ -25,13 +25,16 @@ class BookDetailViewController: UIViewController {
   // 책 제목
   private let bookTitleLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 20, weight: .bold)
+    $0.textAlignment = .center
     $0.numberOfLines = 0
   }
   
   // 작가명
   private let bookAuthorLabel =  UILabel().then {
-    $0.font = .systemFont(ofSize: 16, weight: .regular)
-    $0.textColor = .darkGray
+    $0.font = .systemFont(ofSize: 14, weight: .regular)
+    $0.textColor = .gray
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
   }
   
   // 책 이미지
@@ -48,8 +51,9 @@ class BookDetailViewController: UIViewController {
     $0.font = .systemFont(ofSize: 18, weight: .medium)
   }
   
+  // 책 설명
   private let contentsLabel = UILabel().then {
-    $0.font = .systemFont(ofSize: 18, weight: .medium)
+    $0.font = .systemFont(ofSize: 16, weight: .medium)
     $0.numberOfLines = 0
   }
   
@@ -71,6 +75,7 @@ class BookDetailViewController: UIViewController {
     super.viewDidLoad()
     setupUI()
     setupLayout()
+    configure()
   }
   
   // MARK: setupUI
@@ -106,5 +111,23 @@ class BookDetailViewController: UIViewController {
     verticalStackView.snp.makeConstraints {
       $0.directionalEdges.equalToSuperview().inset(16)
     }
+    
+    bookTitleLabel.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
+    
+    bookAuthorLabel.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
+  }
+  
+  // MARK: configure
+  func configure() {
+    bookTitleLabel.text = book?.title
+    bookAuthorLabel.text = book?.authors.joined(separator: ", ")
+    bookImageView.setImage(urlString: book?.thumbnail)
+    bookPriceLabel.text = "\(book?.price ?? 0)"
+    contentsLabel.text = book?.contents
   }
 }
+
