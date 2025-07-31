@@ -39,7 +39,7 @@ class BookDetailViewController: UIViewController {
   
   // 책 이미지
   private let bookImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
     $0.layer.cornerRadius = 8
     $0.layer.shadowColor = UIColor.black.cgColor
     $0.layer.shadowOpacity = 0.8
@@ -57,6 +57,12 @@ class BookDetailViewController: UIViewController {
   private let contentsLabel = UILabel().then {
     $0.font = .systemFont(ofSize: 16, weight: .medium)
     $0.numberOfLines = 0
+  }
+  
+  private let buttonStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.distribution = .fillProportionally // 비율로 조정
+    $0.spacing = 12
   }
   
   private let dismissButton = UIButton().then {
@@ -84,6 +90,7 @@ class BookDetailViewController: UIViewController {
   private func setupUI() {
     view.backgroundColor = .white
     view.addSubview(scrollView)
+    view.addSubview(buttonStackView)
     scrollView.addSubview(contentView)
     contentView.addSubview(verticalStackView)
     
@@ -96,13 +103,14 @@ class BookDetailViewController: UIViewController {
       dismissButton
     ].forEach { verticalStackView.addArrangedSubview($0) }
     
-    [dismissButton, saveButton].forEach{ view.addSubview($0) }
+    [dismissButton, saveButton].forEach{ buttonStackView.addArrangedSubview($0) }
   }
   
   // MARK: setupLayout
   private func setupLayout() {
     scrollView.snp.makeConstraints {
-      $0.directionalEdges.equalTo(view.safeAreaLayoutGuide)
+      $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalTo(buttonStackView.snp.top).offset(-12)
     }
     
     contentView.snp.makeConstraints {
@@ -125,6 +133,12 @@ class BookDetailViewController: UIViewController {
     bookImageView.snp.makeConstraints {
       $0.width.equalTo(240)
       $0.height.equalTo(340)
+    }
+    
+    buttonStackView.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
+      $0.height.equalTo(60)
     }
   }
   

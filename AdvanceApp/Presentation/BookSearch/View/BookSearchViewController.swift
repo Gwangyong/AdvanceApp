@@ -95,6 +95,7 @@ class BookSearchViewController: UIViewController {
   // MARK: searchResults가 변경되면 섹션 리로드!
   private func bindSearchResults() {
     viewModel.searchResults.subscribe(onNext: { [weak self] _ in
+      // 여기서 reload를 쓴다고? 넌 전혀 Rx를 하고있지 않아.
       self?.collectionView.reloadSections(IndexSet(integer: 1)) // 1번섹션 리로드
     })
     .disposed(by: disposeBag)

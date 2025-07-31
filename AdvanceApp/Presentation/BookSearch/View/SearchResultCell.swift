@@ -13,7 +13,7 @@ class SearchResultCell: UICollectionViewCell {
   static let id = "SearchResultCell"
 
   private let bookImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFit
+    $0.contentMode = .scaleAspectFill
     $0.clipsToBounds  = true
     $0.backgroundColor = .white
     $0.layer.borderWidth = 0.3
