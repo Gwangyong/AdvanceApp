@@ -40,10 +40,12 @@ class BookDetailViewController: UIViewController {
   // 책 이미지
   private let bookImageView = UIImageView().then {
     $0.contentMode = .scaleAspectFit
-    $0.clipsToBounds = true
-    $0.backgroundColor = .white
-    $0.layer.borderWidth = 0.3
-    $0.layer.borderColor = UIColor.lightGray.cgColor
+    $0.layer.cornerRadius = 8
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOpacity = 0.8
+    $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+    $0.layer.shadowRadius = 4
+    $0.clipsToBounds = false
   }
   
   // 금액
@@ -118,6 +120,11 @@ class BookDetailViewController: UIViewController {
     
     bookAuthorLabel.snp.makeConstraints {
       $0.leading.trailing.equalToSuperview().inset(16)
+    }
+    
+    bookImageView.snp.makeConstraints {
+      $0.width.equalTo(240)
+      $0.height.equalTo(340)
     }
   }
   
