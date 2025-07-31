@@ -13,7 +13,7 @@ class SearchResultCell: UICollectionViewCell {
   static let id = "SearchResultCell"
 
   private let bookImageView = UIImageView().then {
-    $0.contentMode = .scaleAspectFill // Fit?
+    $0.contentMode = .scaleAspectFit
     $0.clipsToBounds  = true
     $0.backgroundColor = .white
     $0.layer.borderWidth = 0.3
@@ -34,7 +34,7 @@ class SearchResultCell: UICollectionViewCell {
   }
   
   // 책 제목
-  private let bookTitle = UILabel().then {
+  private let bookTitleLabel = UILabel().then {
     $0.numberOfLines = 1
     $0.font = .systemFont(ofSize: 18, weight: .medium)
     $0.textColor = .black
@@ -71,7 +71,7 @@ class SearchResultCell: UICollectionViewCell {
     
     [bookImageView, verticalStackView].forEach { horizontalStackView.addArrangedSubview($0) }
 
-    [bookTitle, bookAuthorLabel, bookPriceLabel].forEach { verticalStackView.addArrangedSubview($0) }
+    [bookTitleLabel, bookAuthorLabel, bookPriceLabel].forEach { verticalStackView.addArrangedSubview($0) }
   }
   
   // MARK: setupLayout
@@ -88,7 +88,7 @@ class SearchResultCell: UICollectionViewCell {
   
   // MARK: configure
   func configure(_ book: Document) {
-    bookTitle.text = book.title
+    bookTitleLabel.text = book.title
     bookAuthorLabel.text = book.authors.joined(separator: ", ")
     bookPriceLabel.text = "\(book.price)"
     
