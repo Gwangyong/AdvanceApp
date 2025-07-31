@@ -13,7 +13,6 @@ class SearchResultCell: UICollectionViewCell {
   static let id = "SearchResultCell"
 
   private let bookImageView = UIImageView().then {
-    $0.image = UIImage(named: "1")
     $0.contentMode = .scaleAspectFill // Fit?
     $0.clipsToBounds  = true
     $0.backgroundColor = .white
@@ -36,7 +35,6 @@ class SearchResultCell: UICollectionViewCell {
   
   // 책 제목
   private let bookTitle = UILabel().then {
-    $0.text = "[국내도서] 혼모노"
     $0.numberOfLines = 1
     $0.font = .systemFont(ofSize: 18, weight: .medium)
     $0.textColor = .black
@@ -44,7 +42,6 @@ class SearchResultCell: UICollectionViewCell {
   
   // 작가명
   private let bookAuthorLabel =  UILabel().then {
-    $0.text = "성해나"
     $0.numberOfLines = 1
     $0.font = .systemFont(ofSize: 14, weight: .regular)
     $0.textColor = .gray
@@ -52,7 +49,6 @@ class SearchResultCell: UICollectionViewCell {
   
   // 금액
   private let bookPriceLabel =  UILabel().then {
-    $0.text = "16,200"
     $0.numberOfLines = 1
     $0.font = .systemFont(ofSize: 16, weight: .medium)
     $0.textColor = .black
@@ -88,5 +84,14 @@ class SearchResultCell: UICollectionViewCell {
     horizontalStackView.snp.makeConstraints {
       $0.edges.equalToSuperview()
     }
+  }
+  
+  // MARK: configure
+  func configure(_ book: Document) {
+    bookTitle.text = book.title
+    bookAuthorLabel.text = book.authors.joined(separator: ", ")
+    bookPriceLabel.text = "\(book.price)"
+    
+    bookImageView.setImage(urlString: book.thumbnail)
   }
 }

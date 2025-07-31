@@ -19,6 +19,10 @@ class BookSearchViewModel {
   // output: 결과값 담는 Observable View에서 구독해서 화면을 업데이트. 초기값은 []
   let searchResults = BehaviorRelay<[Document]>(value: [])
   
+  init() {
+    bind()
+  }
+  
   // 검색어 오면 -> API 호출 -> 결과 저장하는 메서드!
   private func bind() {
     // searchKeyword: Observable<String> -> Observable<[Document]>로 변경

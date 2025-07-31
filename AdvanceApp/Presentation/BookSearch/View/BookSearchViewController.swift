@@ -9,8 +9,12 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 class BookSearchViewController: UIViewController {
+  private let disposeBag = DisposeBag()
+  private let viewModel = BookSearchViewModel()
   
   private lazy var searchBar = UISearchBar().then {
     $0.placeholder = "책 제목"
@@ -59,6 +63,7 @@ class BookSearchViewController: UIViewController {
     setupLayout()
     setupSearchBar()
     addTabBarTopBorder() // ViewController+UI
+    bindSearchResults()
   }
   
   // MARK: setupUI
@@ -85,6 +90,14 @@ class BookSearchViewController: UIViewController {
       $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
       $0.height.equalTo(0.5)
     }
+  }
+  
+  // MARK: searchResults가 변경되면 섹션 리로드!
+  private func bindSearchResults() {
+    viewModel.searchResults.subscribe(onNext: { [weak self] _ in
+      self?.collectionView.reloadSections(IndexSet(integer: 1)) // 1번섹션 리로드
+    })
+.disposed(by: disposeBag)
   }
   
   // MARK: - SearchBar 자동완성 끄기
@@ -177,7 +190,12 @@ class BookSearchViewController: UIViewController {
 }
 
 extension BookSearchViewController: UISearchBarDelegate {
-  
+  // 검색 버튼 누르면 keyword로 API요청
+  func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    guard let keyword = searchBar.text, !keyword.isEmpty else { return }
+    viewModel.searchKeyword.onNext(keyword)
+    searchBar.resignFirstResponder() // 키보드를 내리는 코드
+  }
 }
 
 extension BookSearchViewController: UICollectionViewDelegate {
@@ -193,7 +211,14 @@ extension BookSearchViewController: UICollectionViewDataSource {
   
   // 섹션 안에 있는 아이템 개수
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    8
+    switch section {
+    case 0:
+      return 3
+    case 1:
+      return viewModel.searchResults.value.count
+    default:
+      return 0
+    }
   }
   
   // 섹션 헤더를 어떻게 보여줄지
@@ -232,11 +257,11 @@ extension BookSearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: SearchResultCell.id,
         for: indexPath
       ) as? SearchResultCell else { return UICollectionViewCell() }
+      let book = viewModel.searchResults.value[indexPath.item]
+       cell.configure(book)
       return cell
     default:
       return UICollectionViewCell()
     }
   }
-  
-  
 }

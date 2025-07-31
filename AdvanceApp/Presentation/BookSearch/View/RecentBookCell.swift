@@ -13,7 +13,7 @@ class RecentBookCell: UICollectionViewCell {
   static let id = "RecentBookCell"
   
   private let bookImageView = UIImageView().then {
-    $0.image = UIImage(named: "1")
+    $0.image = UIImage(named: "Placeholder")
     $0.contentMode = .scaleAspectFill
     $0.clipsToBounds  = true
     $0.backgroundColor = .white
@@ -22,7 +22,7 @@ class RecentBookCell: UICollectionViewCell {
   }
   
   private let bookTitleLabel = UILabel().then {
-    $0.text = "[국내도서] 혼모노"
+    $0.text = "[국내도서] 임시"
     $0.font = .systemFont(ofSize: 14, weight: .regular)
   }
   
