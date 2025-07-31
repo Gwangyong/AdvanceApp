@@ -10,7 +10,7 @@ import RxSwift
 
 class BookAPIService {
   private let url = "https://dapi.kakao.com/v3/search/book"
-  private let headers: HTTPHeaders = ["Authorization": "KakaoAK 20e795a49bd7af5fd0a79a4af35f0c89"] // 인증 정보를 담는 헤더
+  private let headers: HTTPHeaders = ["Authorization": "KakaoAK \(APIKey.kakao)"] // 인증 정보를 담는 헤더
     
   func searchBooks(keyword: String) -> Observable<[Document]> {
     return Observable.create { observer in
