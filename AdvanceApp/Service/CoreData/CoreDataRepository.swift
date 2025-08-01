@@ -21,14 +21,10 @@ class CoreDataRepository {
   }
   
   // MARK: saveBook
-  func saveBook(title: String, thumbnail: String, authors: String, price: Int) {
+  func saveBook(document: Document) {
     guard let context else { return } // context = context
     
-    let book = BookList(context: context)
-    book.title = title
-    book.thumbnail = thumbnail
-    book.authors = authors
-    book.price = Int64(price)
+    convertToBookList(document, context: context)
     
     do {
       try context.save()
@@ -38,14 +34,15 @@ class CoreDataRepository {
   }
   
   // MARK: fetchBooks
-  func fetchBooks() -> [BookList] {
+  func fetchBooks() -> [Document] {
     guard let context else { return [] }
     
     // CoreData에서 BookList에 저장된 모든 객체들을 가져옴
     let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
     
     do {
-      return try context.fetch(fetchRequest)
+      let result = try context.fetch(fetchRequest)
+      return result.map { convertToDocument($0) }
     } catch {
       print("error: \(error.localizedDescription)")
       return []
@@ -67,3 +64,25 @@ class CoreDataRepository {
 }
 
 
+private extension CoreDataRepository {
+  // API 받은 정보 CoreData에 맞도록 변환 (Document -> BookList)
+  func convertToBookList(_ document: Document, context: NSManagedObjectContext) {
+    let book = BookList(context: context)
+    book.title = document.title
+    book.thumbnail = document.thumbnail
+    book.authors = document.authors.joined(separator: ", ")
+    book.price = Int64(document.price)
+  }
+
+  // CoreData 정보 변환 (BookList -> Document)
+  func convertToDocument(_ bookList: BookList) -> Document {
+    return Document(
+      authors: bookList.authors?.components(separatedBy: ", ") ?? [],
+      contents: "", // CoreData에 저장하지 않아서 비워둠
+      price: Int(bookList.price),
+      thumbnail: bookList.thumbnail ?? "",
+      title: bookList.title ?? "",
+      translators: [] // 안쓰지만..
+    )
+  }
+}

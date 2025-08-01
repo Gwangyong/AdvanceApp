@@ -8,10 +8,15 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 class BookDetailViewController: UIViewController {
   // 전달받을 책 정보
   var book: Document?
+  
+  let viewModel = BookDetailViewModel()
+  let disposeBag = DisposeBag()
   
   private let scrollView = UIScrollView()
   private let contentView = UIView()
@@ -92,6 +97,7 @@ class BookDetailViewController: UIViewController {
     setupUI()
     setupLayout()
     configure()
+    bind()
   }
   
   // MARK: setupUI
@@ -158,5 +164,29 @@ class BookDetailViewController: UIViewController {
     bookPriceLabel.text = book?.price.formatPrice
     contentsLabel.text = book?.contents
   }
+  
+  // MARK: bind
+  private func bind() {
+    dismissButton.rx.tap
+      .bind { [weak self] in
+        self?.dismiss(animated: true)
+      }.disposed(by: disposeBag)
+    
+    saveButton.rx.tap
+      .bind { [weak self] in
+        guard let self, let book = self.book else { return }
+        self.viewModel.save(document: book)
+        
+        let alert = UIAlertController(
+          title: "담기 완료",
+          message: "\"\(self.book?.title ?? "제목을 모르는 책")\" 책을 담았습니다.",
+          preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+          self.dismiss(animated: true)
+        })
+        self.present(alert, animated: true)
+      }
+      .disposed(by: disposeBag)
+  }
 }
-
