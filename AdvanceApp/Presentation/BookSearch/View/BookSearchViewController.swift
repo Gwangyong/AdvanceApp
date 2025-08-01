@@ -95,9 +95,10 @@ class BookSearchViewController: UIViewController {
   // MARK: searchResults가 변경되면 섹션 리로드!
   private func bindSearchResults() {
     viewModel.searchResults.subscribe(onNext: { [weak self] _ in
+      // 여기서 reload를 쓴다고? 넌 전혀 Rx를 하고있지 않아.
       self?.collectionView.reloadSections(IndexSet(integer: 1)) // 1번섹션 리로드
     })
-.disposed(by: disposeBag)
+    .disposed(by: disposeBag)
   }
   
   // MARK: - SearchBar 자동완성 끄기
@@ -120,7 +121,14 @@ extension BookSearchViewController: UISearchBarDelegate {
 }
 
 extension BookSearchViewController: UICollectionViewDelegate {
-  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    guard indexPath.section == 1 else { return }
+    let selectedBook = viewModel.searchResults.value[indexPath.item] // 누른 셀의 데이터
+    let detailVC = BookDetailViewController()
+    detailVC.book = selectedBook // 누른 셀의 데이터를 전달
+    detailVC.modalPresentationStyle = .automatic // 하단에서 올라오는 카드 형식. 스크롤 가능
+    present(detailVC, animated: true)
+  }
 }
 
 extension BookSearchViewController: UICollectionViewDataSource {
@@ -179,7 +187,7 @@ extension BookSearchViewController: UICollectionViewDataSource {
         for: indexPath
       ) as? SearchResultCell else { return UICollectionViewCell() }
       let book = viewModel.searchResults.value[indexPath.item]
-       cell.configure(book)
+      cell.configure(book)
       return cell
     default:
       return UICollectionViewCell()

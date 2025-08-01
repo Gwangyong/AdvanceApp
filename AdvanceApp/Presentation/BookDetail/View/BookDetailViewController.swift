@@ -8,9 +8,185 @@
 import UIKit
 import SnapKit
 import Then
+import RxSwift
+import RxCocoa
 
 class BookDetailViewController: UIViewController {
+  // 전달받을 책 정보
+  var book: Document?
+  
+  let viewModel = BookDetailViewModel()
+  let disposeBag = DisposeBag()
+  
+  private let scrollView = UIScrollView()
+  private let contentView = UIView()
+  
+  private let verticalStackView = UIStackView().then {
+    $0.axis = .vertical
+    $0.spacing = 16
+    $0.alignment = .center
+  }
+  
+  // 책 제목
+  private let bookTitleLabel = UILabel().then {
+    $0.font = .systemFont(ofSize: 20, weight: .bold)
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
+  }
+  
+  // 작가명
+  private let bookAuthorLabel =  UILabel().then {
+    $0.font = .systemFont(ofSize: 14, weight: .regular)
+    $0.textColor = .gray
+    $0.textAlignment = .center
+    $0.numberOfLines = 0
+  }
+  
+  // 책 이미지
+  private let bookImageView = UIImageView().then {
+    $0.contentMode = .scaleAspectFill
+    $0.layer.cornerRadius = 8
+    $0.layer.shadowColor = UIColor.black.cgColor
+    $0.layer.shadowOpacity = 0.8
+    $0.layer.shadowOffset = CGSize(width: 0, height: 2)
+    $0.layer.shadowRadius = 4
+    $0.clipsToBounds = false
+  }
+  
+  // 금액
+  private let bookPriceLabel =  UILabel().then {
+    $0.font = .systemFont(ofSize: 18, weight: .medium)
+  }
+  
+  // 책 설명
+  private let contentsLabel = UILabel().then {
+    $0.font = .systemFont(ofSize: 16, weight: .medium)
+    $0.numberOfLines = 0
+  }
+  
+  private let buttonStackView = UIStackView().then {
+    $0.axis = .horizontal
+    $0.distribution = .fillProportionally // 비율로 조정
+    $0.spacing = 12
+  }
+  
+  private let dismissButton = UIButton().then {
+    $0.setImage(
+      UIImage(
+        systemName: "xmark",
+        withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium)
+      ),
+      for: .normal
+    )
+    $0.backgroundColor = .gray
+    $0.tintColor = .white
+    $0.layer.cornerRadius = 20
+  }
+  
+  private let saveButton = UIButton().then {
+    $0.setTitle("담기", for: .normal)
+    $0.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
+    $0.backgroundColor = .systemGreen
+    $0.setTitleColor(.white, for: .normal)
+    $0.layer.cornerRadius = 20
+    $0.setTitleColor(.white.withAlphaComponent(0.5), for: .highlighted) // 터치 중일 경우 색상, 투명도 변경
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupUI()
+    setupLayout()
+    configure()
+    bind()
+  }
+  
+  // MARK: setupUI
+  private func setupUI() {
+    view.backgroundColor = .white
+    view.addSubview(scrollView)
+    view.addSubview(buttonStackView)
+    scrollView.addSubview(contentView)
+    contentView.addSubview(verticalStackView)
+    
+    [
+      bookTitleLabel,
+      bookAuthorLabel,
+      bookImageView,
+      bookPriceLabel,
+      contentsLabel,
+      dismissButton
+    ].forEach { verticalStackView.addArrangedSubview($0) }
+    
+    [dismissButton, saveButton].forEach{ buttonStackView.addArrangedSubview($0) }
+  }
+  
+  // MARK: setupLayout
+  private func setupLayout() {
+    scrollView.snp.makeConstraints {
+      $0.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+      $0.bottom.equalTo(buttonStackView.snp.top).offset(-12)
+    }
+    
+    contentView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview()
+      $0.width.equalToSuperview() // 가로를 붙여서 가로 스크롤 X
+    }
+    
+    verticalStackView.snp.makeConstraints {
+      $0.directionalEdges.equalToSuperview().inset(16)
+    }
+    
+    bookTitleLabel.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
+    
+    bookAuthorLabel.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(16)
+    }
+    
+    bookImageView.snp.makeConstraints {
+      $0.width.equalTo(240)
+      $0.height.equalTo(340)
+    }
+    
+    buttonStackView.snp.makeConstraints {
+      $0.leading.trailing.equalToSuperview().inset(16)
+      $0.bottom.equalTo(view.safeAreaLayoutGuide).inset(12)
+      $0.height.equalTo(60)
+    }
+  }
+  
+  // MARK: configure
+  func configure() {
+    bookTitleLabel.text = book?.title
+    bookAuthorLabel.text = book?.authors.joined(separator: ", ")
+    bookImageView.setImage(urlString: book?.thumbnail)
+    bookPriceLabel.text = book?.price.formatPrice
+    contentsLabel.text = book?.contents
+  }
+  
+  // MARK: bind
+  private func bind() {
+    dismissButton.rx.tap
+      .bind { [weak self] in
+        self?.dismiss(animated: true)
+      }.disposed(by: disposeBag)
+    
+    saveButton.rx.tap
+      .bind { [weak self] in
+        guard let self, let book = self.book else { return }
+        self.viewModel.save(document: book)
+        
+        let alert = UIAlertController(
+          title: "담기 완료",
+          message: "\"\(self.book?.title ?? "제목을 모르는 책")\" 책을 담았습니다.",
+          preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in
+          self.dismiss(animated: true)
+        })
+        self.present(alert, animated: true)
+      }
+      .disposed(by: disposeBag)
   }
 }
