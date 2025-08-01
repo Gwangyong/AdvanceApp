@@ -90,7 +90,7 @@ class SearchResultCell: UICollectionViewCell {
   func configure(_ book: Document) {
     bookTitleLabel.text = book.title
     bookAuthorLabel.text = book.authors.joined(separator: ", ")
-    bookPriceLabel.text = "\(book.price)"
+    bookPriceLabel.text = book.price.formatPrice
     
     bookImageView.setImage(urlString: book.thumbnail)
   }

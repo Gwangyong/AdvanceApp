@@ -155,7 +155,7 @@ class BookDetailViewController: UIViewController {
     bookTitleLabel.text = book?.title
     bookAuthorLabel.text = book?.authors.joined(separator: ", ")
     bookImageView.setImage(urlString: book?.thumbnail)
-    bookPriceLabel.text = "\(book?.price ?? 0)"
+    bookPriceLabel.text = book?.price.formatPrice
     contentsLabel.text = book?.contents
   }
 }
