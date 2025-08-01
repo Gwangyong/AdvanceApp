@@ -9,7 +9,7 @@ struct Book: Codable {
   let documents: [Document]
 }
 
-struct Document: Codable {
+struct Document: Codable, Hashable {
   let authors: [String]
   let contents: String
   let price: Int
