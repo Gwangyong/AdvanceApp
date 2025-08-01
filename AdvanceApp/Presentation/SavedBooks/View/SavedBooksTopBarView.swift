@@ -15,6 +15,7 @@ class SavedBooksTopBarView: UIView {
     $0.setTitle("전체 삭제", for: .normal)
     $0.setTitleColor(.lightGray, for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
+    $0.setTitleColor(.lightGray.withAlphaComponent(0.5), for: .highlighted)
   }
   
   private let titleLabel = UILabel().then {
@@ -27,6 +28,7 @@ class SavedBooksTopBarView: UIView {
     $0.setTitle("추가", for: .normal)
     $0.setTitleColor(.systemGreen, for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
+    $0.setTitleColor(.systemGreen.withAlphaComponent(0.5), for: .highlighted)
   }
   
   override init(frame: CGRect) {
@@ -41,6 +43,7 @@ class SavedBooksTopBarView: UIView {
   
   // MARK: setupUI
   private func setupUI() {
+    backgroundColor = .white
     [deleteAllButton, titleLabel, addButton].forEach { addSubview($0) }
   }
   

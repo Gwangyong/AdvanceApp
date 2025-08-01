@@ -16,7 +16,10 @@ class SavedBooksViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let topBarView = SavedBooksTopBarView()
-  private lazy var tableView = UITableView()
+  private lazy var tableView = UITableView().then {
+    $0.separatorStyle = .none // 셀 사이 경계선 삭제
+    $0.register(SavedBookCell.self, forCellReuseIdentifier: SavedBookCell.id)
+  }
   
   private enum Section {
     case main
@@ -41,6 +44,11 @@ class SavedBooksViewController: UIViewController {
     bind()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    viewModel.loadSavedBooks()
+  }
+  
   // MARK: setupUI
   private func setupUI() {
     navigationController?.setNavigationBarHidden(true, animated: false)
@@ -57,8 +65,8 @@ class SavedBooksViewController: UIViewController {
     }
     
     tableView.snp.makeConstraints {
-      $0.top.equalTo(topBarView.snp.bottom)
-      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+      $0.top.equalTo(topBarView.snp.bottom).offset(16)
+      $0.leading.trailing.equalTo(view.safeAreaLayoutGuide).inset(16)
       $0.bottom.equalTo(view.safeAreaLayoutGuide)
     }
   }

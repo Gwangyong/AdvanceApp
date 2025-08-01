@@ -18,7 +18,7 @@ class SavedBooksViewModel {
     loadSavedBooks()
   }
   
-  private func loadSavedBooks() {
+  func loadSavedBooks() {
     let books = CoreDataRepository.shared.fetchBooks()
     savedBooks.onNext(books)
   }
