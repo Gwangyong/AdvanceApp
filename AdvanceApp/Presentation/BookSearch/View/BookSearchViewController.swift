@@ -67,6 +67,7 @@ class BookSearchViewController: UIViewController {
   
   // MARK: setupUI
   private func setupUI() {
+    navigationController?.setNavigationBarHidden(true, animated: false)
     view.backgroundColor = .white
     
     [searchBar, collectionView, tabBarTopBorder].forEach{ view.addSubview($0) }

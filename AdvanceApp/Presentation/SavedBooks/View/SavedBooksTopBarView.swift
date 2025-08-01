@@ -10,6 +10,25 @@ import SnapKit
 import Then
 
 class SavedBooksTopBarView: UIView {
+  
+  private let deleteAllButton = UIButton().then {
+    $0.setTitle("전체 삭제", for: .normal)
+    $0.setTitleColor(.lightGray, for: .normal)
+    $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
+  }
+  
+  private let titleLabel = UILabel().then {
+    $0.text = "담은 책"
+    $0.font = .boldSystemFont(ofSize: 24)
+    $0.textAlignment = .center
+  }
+  
+  private let addButton = UIButton().then {
+    $0.setTitle("추가", for: .normal)
+    $0.setTitleColor(.systemGreen, for: .normal)
+    $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
+  }
+  
   override init(frame: CGRect) {
     super.init(frame: frame)
     setupUI()
@@ -22,11 +41,23 @@ class SavedBooksTopBarView: UIView {
   
   // MARK: setupUI
   private func setupUI() {
-    
+    [deleteAllButton, titleLabel, addButton].forEach { addSubview($0) }
   }
   
   // MARK: setupLayout
   private func setupLayout() {
+    deleteAllButton.snp.makeConstraints {
+      $0.leading.equalToSuperview().offset(24)
+      $0.centerY.equalToSuperview()
+    }
     
+    titleLabel.snp.makeConstraints {
+      $0.center.equalToSuperview()
+    }
+    
+    addButton.snp.makeConstraints {
+      $0.trailing.equalToSuperview().inset(24)
+      $0.centerY.equalToSuperview()
+    }
   }
 }

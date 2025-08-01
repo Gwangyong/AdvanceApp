@@ -24,12 +24,17 @@ class SavedBooksViewController: UIViewController {
   
   // MARK: setupUI
   private func setupUI() {
+    navigationController?.setNavigationBarHidden(true, animated: false)
     view.backgroundColor = .white
-    
+    [topBarView, tableView, bottomBarView].forEach { view.addSubview($0) }
   }
   
   // MARK: setupLayout
   private func setupLayout() {
-    
+    topBarView.snp.makeConstraints {
+      $0.top.equalTo(view.safeAreaLayoutGuide)
+      $0.leading.trailing.equalToSuperview()
+      $0.height.equalTo(44)
+    }
   }
 }
