@@ -27,4 +27,9 @@ class SavedBooksViewModel {
     CoreDataRepository.shared.deleteAllBooks()
     loadSavedBooks()
   }
+  
+  func deleteBook(_ document: Document) {
+    CoreDataRepository.shared.deleteBook(document)
+    loadSavedBooks()
+  }
 }

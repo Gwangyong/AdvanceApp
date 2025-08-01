@@ -10,6 +10,7 @@ struct Book: Codable {
 }
 
 struct Document: Codable, Hashable {
+  let isbn: String
   let authors: [String]
   let contents: String
   let price: Int
