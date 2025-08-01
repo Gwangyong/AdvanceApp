@@ -18,6 +18,7 @@ class SavedBooksViewController: UIViewController {
   private let topBarView = SavedBooksTopBarView()
   private lazy var tableView = UITableView().then {
     $0.separatorStyle = .none // 셀 사이 경계선 삭제
+    $0.showsHorizontalScrollIndicator = false
     $0.register(SavedBookCell.self, forCellReuseIdentifier: SavedBookCell.id)
   }
   
@@ -38,9 +39,9 @@ class SavedBooksViewController: UIViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    addTabBarTopBorder() // ViewController+UI
     setupUI()
     setupLayout()
+    addTabBarTopBorder() // ViewController+UI
     bind()
   }
   
