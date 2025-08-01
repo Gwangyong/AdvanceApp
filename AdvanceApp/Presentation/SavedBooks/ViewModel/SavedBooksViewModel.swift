@@ -22,4 +22,9 @@ class SavedBooksViewModel {
     let books = CoreDataRepository.shared.fetchBooks()
     savedBooks.onNext(books)
   }
+  
+  func deleteAllBooks() {
+    CoreDataRepository.shared.deleteAllBooks()
+    loadSavedBooks()
+  }
 }

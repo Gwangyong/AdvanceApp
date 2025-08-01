@@ -83,6 +83,16 @@ class SavedBooksViewController: UIViewController {
         self?.dataSource.apply(snapshot, animatingDifferences: true)
       })
       .disposed(by: disposeBag)
+    
+    topBarView.deleteAllButton.rx.tap
+      .bind { [weak self] in
+        let alert = UIAlertController(title: "삭제", message: "정말로 삭제하시겠습니까?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .default))
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive) { _ in
+          self?.viewModel.deleteAllBooks()
+        })
+        self?.present(alert, animated: true)
+      }.disposed(by: disposeBag)
   }
   
 }

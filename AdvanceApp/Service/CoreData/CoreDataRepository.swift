@@ -49,6 +49,20 @@ class CoreDataRepository {
     }
   }
   
+  // MARK: deleteAllBooks
+  func deleteAllBooks() {
+    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    
+    do {
+      let books = try context?.fetch(fetchRequest)
+      
+      books?.forEach { context?.delete($0) }
+      try context?.save()
+    } catch {
+      print("error: \(error.localizedDescription)")
+    }
+  }
+  
   // MARK: deleteBook
   func deleteBook(book: BookList) {
     guard let context else {return }

@@ -11,7 +11,7 @@ import Then
 
 class SavedBooksTopBarView: UIView {
   
-  private let deleteAllButton = UIButton().then {
+  let deleteAllButton = UIButton().then {
     $0.setTitle("전체 삭제", for: .normal)
     $0.setTitleColor(.lightGray, for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
