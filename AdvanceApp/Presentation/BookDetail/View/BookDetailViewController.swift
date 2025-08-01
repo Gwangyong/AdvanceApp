@@ -66,7 +66,13 @@ class BookDetailViewController: UIViewController {
   }
   
   private let dismissButton = UIButton().then {
-    $0.setImage(UIImage(systemName: "xmark"), for: .normal)
+    $0.setImage(
+      UIImage(
+        systemName: "xmark",
+        withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium)
+      ),
+      for: .normal
+    )
     $0.backgroundColor = .gray
     $0.tintColor = .white
     $0.layer.cornerRadius = 20
@@ -74,9 +80,11 @@ class BookDetailViewController: UIViewController {
   
   private let saveButton = UIButton().then {
     $0.setTitle("담기", for: .normal)
+    $0.titleLabel?.font = .systemFont(ofSize: 20, weight: .bold)
     $0.backgroundColor = .systemGreen
     $0.setTitleColor(.white, for: .normal)
     $0.layer.cornerRadius = 20
+    $0.setTitleColor(.white.withAlphaComponent(0.5), for: .highlighted) // 터치 중일 경우 색상, 투명도 변경
   }
   
   override func viewDidLoad() {
