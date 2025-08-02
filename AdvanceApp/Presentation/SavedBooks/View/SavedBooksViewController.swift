@@ -16,6 +16,7 @@ class SavedBooksViewController: UIViewController {
   
   private let disposeBag = DisposeBag()
   private let topBarView = SavedBooksTopBarView()
+  private let bookSearchVC = BookSearchViewController()
   private lazy var tableView = UITableView().then {
     $0.separatorStyle = .none // 셀 사이 경계선 삭제
     $0.showsHorizontalScrollIndicator = false
@@ -94,8 +95,15 @@ class SavedBooksViewController: UIViewController {
         })
         self?.present(alert, animated: true)
       }.disposed(by: disposeBag)
+    
+    topBarView.addButton.rx.tap
+      .bind { [weak self] in
+        guard let self else { return }
+        
+        self.tabBarController?.selectedIndex = 0 // 0번째 인덱스. BookSearchVC로 이동
+      }
+      .disposed(by: disposeBag)
   }
-  
 }
 
 // MARK: TableView 오른쪽 스와이프 delegate

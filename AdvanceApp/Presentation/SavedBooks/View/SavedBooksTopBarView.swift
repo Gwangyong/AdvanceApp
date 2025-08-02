@@ -24,7 +24,7 @@ class SavedBooksTopBarView: UIView {
     $0.textAlignment = .center
   }
   
-  private let addButton = UIButton().then {
+  let addButton = UIButton().then {
     $0.setTitle("추가", for: .normal)
     $0.setTitleColor(.systemGreen, for: .normal)
     $0.titleLabel?.font = .systemFont(ofSize: 18, weight: .regular)
