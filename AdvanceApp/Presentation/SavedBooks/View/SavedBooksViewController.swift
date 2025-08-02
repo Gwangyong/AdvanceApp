@@ -19,6 +19,7 @@ class SavedBooksViewController: UIViewController {
   private lazy var tableView = UITableView().then {
     $0.separatorStyle = .none // 셀 사이 경계선 삭제
     $0.showsHorizontalScrollIndicator = false
+    $0.delegate = self
     $0.register(SavedBookCell.self, forCellReuseIdentifier: SavedBookCell.id)
   }
   
@@ -95,4 +96,17 @@ class SavedBooksViewController: UIViewController {
       }.disposed(by: disposeBag)
   }
   
+}
+
+// MARK: TableView 오른쪽 스와이프 delegate
+extension SavedBooksViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    guard let document = dataSource.itemIdentifier(for: indexPath) else { return nil }
+    
+    let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
+      self.viewModel.deleteBook(document)
+      completion(true) // 액션 true했다. 스와이프 UI 닫힘
+    }
+    return UISwipeActionsConfiguration(actions: [deleteAction])
+  }
 }

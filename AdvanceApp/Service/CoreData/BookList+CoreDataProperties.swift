@@ -16,7 +16,7 @@ extension BookList {
     return NSFetchRequest<BookList>(entityName: "BookList")
   }
   
-  @NSManaged public var isbn: String
+  @NSManaged public var isbn: String?
   @NSManaged public var thumbnail: String?
   @NSManaged public var title: String?
   @NSManaged public var authors: String?

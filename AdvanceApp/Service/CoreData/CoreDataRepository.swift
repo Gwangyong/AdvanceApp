@@ -89,12 +89,13 @@ private extension CoreDataRepository {
     book.thumbnail = document.thumbnail
     book.authors = document.authors.joined(separator: ", ")
     book.price = Int64(document.price)
+    book.isbn = document.isbn
   }
 
   // CoreData 정보 변환 (BookList -> Document)
   func convertToDocument(_ bookList: BookList) -> Document {
     return Document(
-      isbn: bookList.isbn,
+      isbn: bookList.isbn ?? "",
       authors: bookList.authors?.components(separatedBy: ", ") ?? [],
       contents: "", // CoreData에 저장하지 않아서 비워둠
       price: Int(bookList.price),
