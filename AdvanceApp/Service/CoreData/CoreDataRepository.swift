@@ -90,6 +90,7 @@ private extension CoreDataRepository {
     book.authors = document.authors.joined(separator: ", ")
     book.price = Int64(document.price)
     book.isbn = document.isbn
+    book.isRecent = document.isRecent
   }
 
   // CoreData 정보 변환 (BookList -> Document)
@@ -101,7 +102,8 @@ private extension CoreDataRepository {
       price: Int(bookList.price),
       thumbnail: bookList.thumbnail ?? "",
       title: bookList.title ?? "",
-      translators: [] // 안쓰지만..
+      translators: [], // 안쓰지만..
+      isRecent: false
     )
   }
 }
