@@ -49,14 +49,31 @@ class CoreDataRepository {
     }
   }
   
-  // MARK: deleteBook
-  func deleteBook(book: BookList) {
-    guard let context else {return }
-    
-    context.delete(book)
+  // MARK: deleteAllBooks
+  func deleteAllBooks() {
+    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
     
     do {
-      try context.save()
+      let books = try context?.fetch(fetchRequest)
+      
+      books?.forEach { context?.delete($0) }
+      try context?.save()
+    } catch {
+      print("error: \(error.localizedDescription)")
+    }
+  }
+  
+  // MARK: deleteBook
+  func deleteBook(_ document: Document) {
+    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isbn == %@", document.isbn)
+    
+    do {
+      // .first가 nil을 반환하니 if let 사용
+      if let book = try context?.fetch(fetchRequest).first { // 조건에 맞는 것 중 하나만 (중복 있을 수 있으니)
+        context?.delete(book)
+        try context?.save()
+      }
     } catch {
       print("error: \(error.localizedDescription)")
     }
@@ -72,11 +89,13 @@ private extension CoreDataRepository {
     book.thumbnail = document.thumbnail
     book.authors = document.authors.joined(separator: ", ")
     book.price = Int64(document.price)
+    book.isbn = document.isbn
   }
 
   // CoreData 정보 변환 (BookList -> Document)
   func convertToDocument(_ bookList: BookList) -> Document {
     return Document(
+      isbn: bookList.isbn ?? "",
       authors: bookList.authors?.components(separatedBy: ", ") ?? [],
       contents: "", // CoreData에 저장하지 않아서 비워둠
       price: Int(bookList.price),
