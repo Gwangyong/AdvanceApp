@@ -29,15 +29,19 @@ class CoreDataRepository {
     fetchRequest.predicate = NSPredicate(format: "isbn == %@", document.isbn) // 저장하려는 isbn과 Coredata에 중복 있나 확인
     
     do {
-      if let matchedBook = try context.fetch(fetchRequest).first { // 값이 있으면 실행. 없으면 first로 인해 nil이라 실행 x
+      let matchedBook = try context.fetch(fetchRequest).first
+      var updateDocument = document
+      updateDocument.isRecent = isRecent || matchedBook?.isRecent ?? false
+      updateDocument.isSaved = isSaved || matchedBook?.isSaved ?? false
+
+      // 기존 데이터 삭제
+      if let matchedBook {
         context.delete(matchedBook)
       }
-      
-      var updateDocument = document
-      updateDocument.isRecent = isRecent
-      updateDocument.isSaved = isSaved
-      
+
+      // 변환 후 저장
       convertToBookList(updateDocument, context: context)
+      
       try context.save()
     } catch {
       print("error: \(error.localizedDescription)")
@@ -64,10 +68,10 @@ class CoreDataRepository {
 //  // MARK: fetchRecentBooks
 //  func fetchRecentBooks() -> [Document] {
 //    guard let context else { return [] }
-//    
+//
 //    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
 //    fetchRequest.predicate = NSPredicate(format: "isRecent == true")
-//    
+//
 //    do {
 //      let result = try context.fetch(fetchRequest)
 //      return result.map { convertToDocument($0) } // 변환은 필수!
