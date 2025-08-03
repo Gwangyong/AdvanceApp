@@ -40,13 +40,13 @@ class BookSearchViewModel {
   
   // MARK: 최근 본 책 불러오기
   func loadRecentBooks() {
-    let books = CoreDataRepository.shared.fetchRecentBooks()
+    let books = CoreDataRepository.shared.fetchBooks(BookStatusKey.isRecent.rawValue)
     recentBooks.accept(books) // accept: 새로운 값을 강제로 덮어쓰고, 구독중인 곳에 즉시 반영해줌
   }
   
   // MARK: 최근 본 책 저장
   func saveRecentBook(_ book: Document) {
-    CoreDataRepository.shared.saveRecentBook(document: book)
+    CoreDataRepository.shared.save(document: book, isRecent: true)
     loadRecentBooks()
   }
 

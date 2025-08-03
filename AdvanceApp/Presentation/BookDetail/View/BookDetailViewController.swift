@@ -174,13 +174,12 @@ class BookDetailViewController: UIViewController {
     
     saveButton.rx.tap
       .bind { [weak self] in
-        guard let self, var book = self.book else { return }
-        book.isSaved = true
+        guard let self, let book = self.book else { return }
         self.viewModel.save(document: book)
         
         let alert = UIAlertController(
           title: "담기 완료",
-          message: "\"\(self.book?.title ?? "제목을 모르는 책")\" 책을 담았습니다.",
+          message: "\"\(book.title)\" 책을 담았습니다.",
           preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in

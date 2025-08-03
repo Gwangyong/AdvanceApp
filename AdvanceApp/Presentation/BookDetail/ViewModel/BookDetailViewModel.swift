@@ -8,6 +8,6 @@
 class BookDetailViewModel {
   
   func save(document: Document) {
-    CoreDataRepository.shared.saveBook(document: document)
+    CoreDataRepository.shared.save(document: document, isSaved: true)
   }
 }

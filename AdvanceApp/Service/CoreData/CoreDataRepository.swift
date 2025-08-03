@@ -20,25 +20,37 @@ class CoreDataRepository {
     return appDelegate.persistentContainer.viewContext
   }
   
-  // MARK: saveBook
-  func saveBook(document: Document) {
-    guard let context else { return } // context = context
+  // MARK: save
+  func save(document: Document, isRecent: Bool = false, isSaved: Bool = false) {
+    guard let context else { return }
     
-    convertToBookList(document, context: context)
+    // 중복 제거
+    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isbn == %@", document.isbn) // 저장하려는 isbn과 Coredata에 중복 있나 확인
     
     do {
+      if let matchedBook = try context.fetch(fetchRequest).first { // 값이 있으면 실행. 없으면 first로 인해 nil이라 실행 x
+        context.delete(matchedBook)
+      }
+      
+      var updateDocument = document
+      updateDocument.isRecent = isRecent
+      updateDocument.isSaved = isSaved
+      
+      convertToBookList(updateDocument, context: context)
       try context.save()
     } catch {
       print("error: \(error.localizedDescription)")
     }
   }
-  
+
   // MARK: fetchBooks
-  func fetchBooks() -> [Document] {
+  func fetchBooks(_ status: String) -> [Document] {
     guard let context else { return [] }
     
     // CoreData에서 BookList에 저장된 모든 객체들을 가져옴
     let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "%K == true", status) // status가 true인 책만
     
     do {
       let result = try context.fetch(fetchRequest)
@@ -49,9 +61,26 @@ class CoreDataRepository {
     }
   }
   
+//  // MARK: fetchRecentBooks
+//  func fetchRecentBooks() -> [Document] {
+//    guard let context else { return [] }
+//    
+//    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+//    fetchRequest.predicate = NSPredicate(format: "isRecent == true")
+//    
+//    do {
+//      let result = try context.fetch(fetchRequest)
+//      return result.map { convertToDocument($0) } // 변환은 필수!
+//    } catch {
+//      print("error: \(error.localizedDescription)")
+//      return []
+//    }
+//  }
+  
   // MARK: deleteAllBooks
   func deleteAllBooks() {
     let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isSaved == true")
     
     do {
       let books = try context?.fetch(fetchRequest)
@@ -76,45 +105,6 @@ class CoreDataRepository {
       }
     } catch {
       print("error: \(error.localizedDescription)")
-    }
-  }
-  
-  // MARK: saveRecentBook
-  func saveRecentBook(document: Document) {
-    guard let context else { return }
-    
-    // 중복 제거
-    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
-    fetchRequest.predicate = NSPredicate(format: "isbn == %@", document.isbn) // 저장하려는 isbn과 Coredata에 중복 있나 확인
-    
-    do {
-      if let matchedBook = try context.fetch(fetchRequest).first { // 값이 있으면 실행. 없으면 first로 인해 nil이라 실행 x
-        context.delete(matchedBook)
-      }
-      
-      var newDocument = document
-      newDocument.isRecent = true // 중복 없으면 true로 변경해서 최근 본 책으로 만듦
-      
-      convertToBookList(newDocument, context: context)
-      try context.save()
-    } catch {
-      print("error: \(error.localizedDescription)")
-    }
-  }
-  
-  // MARK: fetchRecentBooks
-  func fetchRecentBooks() -> [Document] {
-    guard let context else { return [] }
-    
-    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
-    fetchRequest.predicate = NSPredicate(format: "isRecent == true")
-    
-    do {
-      let result = try context.fetch(fetchRequest)
-      return result.map { convertToDocument($0) } // 변환은 필수!
-    } catch {
-      print("error: \(error.localizedDescription)")
-      return []
     }
   }
 }
@@ -143,7 +133,8 @@ private extension CoreDataRepository {
       thumbnail: bookList.thumbnail ?? "",
       title: bookList.title ?? "",
       translators: [], // 안쓰지만..
-      isRecent: false
+      isRecent: bookList.isRecent,
+      isSaved: bookList.isSaved
     )
   }
 }
