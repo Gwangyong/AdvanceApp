@@ -17,5 +17,5 @@ struct Document: Codable, Hashable {
   let thumbnail: String // 이미지 주소 (섬네일)
   let title: String
   let translators: [String] // 번역가인데 나중에 시간나면 추가
-  let isRecent: Bool
+  var isRecent: Bool?
 }

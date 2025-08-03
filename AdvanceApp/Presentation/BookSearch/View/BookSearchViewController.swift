@@ -63,6 +63,13 @@ class BookSearchViewController: UIViewController {
     setupSearchBar()
     addTabBarTopBorder() // ViewController+UI
     bindSearchResults()
+    bindRecentBooks()
+    viewModel.loadRecentBooks() // 앱 켤때 최근 본 책 불러오기
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
   }
   
   // MARK: setupUI
@@ -101,6 +108,14 @@ class BookSearchViewController: UIViewController {
     .disposed(by: disposeBag)
   }
   
+  // MARK: recentBooks가 변경되면 섹션 리로드!
+  private func bindRecentBooks() {
+    viewModel.recentBooks.subscribe(onNext: { [weak self] _ in
+      self?.collectionView.reloadSections(IndexSet(integer: 0))
+    })
+    .disposed(by: disposeBag)
+  }
+  
   // MARK: - SearchBar 자동완성 끄기
   private func setupSearchBar() {
     if let textField = searchBar.value(forKey: "searchField") as? UITextField { // SearchBar에 내부적으로 있는 TextField
@@ -122,8 +137,21 @@ extension BookSearchViewController: UISearchBarDelegate {
 
 extension BookSearchViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-    guard indexPath.section == 1 else { return }
-    let selectedBook = viewModel.searchResults.value[indexPath.item] // 누른 셀의 데이터
+    let selectedBook: Document
+
+    // 각 상황마다 선택한 indexPath.item에 대한 정보를 저장
+    switch indexPath.section {
+    case 0:
+      selectedBook = viewModel.recentBooks.value[indexPath.item]
+    case 1:
+      selectedBook = viewModel.searchResults.value[indexPath.item]
+    default:
+      return
+    }
+    
+    // 눌러서 Modal이 띄워지는 타이밍이니, 최근 본 책에 저장
+    viewModel.saveRecentBook(selectedBook)
+    
     let detailVC = BookDetailViewController()
     detailVC.book = selectedBook // 누른 셀의 데이터를 전달
     detailVC.modalPresentationStyle = .automatic // 하단에서 올라오는 카드 형식. 스크롤 가능
@@ -142,7 +170,7 @@ extension BookSearchViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     switch section {
     case 0:
-      return 5
+      return viewModel.recentBooks.value.count // 개수 없으면 섹션 숨겨짐
     case 1:
       return viewModel.searchResults.value.count
     default:
@@ -159,6 +187,7 @@ extension BookSearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: RecentBookSectionHeader.id,
         for: indexPath
       ) as? RecentBookSectionHeader else { return UICollectionReusableView() }
+      header.isHidden = viewModel.recentBooks.value.isEmpty // 최근 본 책 개수가 0개면 헤더 숨김처리
       return header
     case 1:
       guard let header = collectionView.dequeueReusableSupplementaryView(
@@ -180,6 +209,8 @@ extension BookSearchViewController: UICollectionViewDataSource {
         withReuseIdentifier: RecentBookCell.id,
         for: indexPath
       ) as? RecentBookCell else { return UICollectionViewCell() }
+      let book = viewModel.recentBooks.value[indexPath.item]
+      cell.configure(book)
       return cell
     case 1:
       guard let cell = collectionView.dequeueReusableCell(
