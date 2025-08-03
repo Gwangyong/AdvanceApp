@@ -179,7 +179,7 @@ class BookDetailViewController: UIViewController {
         
         let alert = UIAlertController(
           title: "담기 완료",
-          message: "\"\(self.book?.title ?? "제목을 모르는 책")\" 책을 담았습니다.",
+          message: "\"\(book.title)\" 책을 담았습니다.",
           preferredStyle: .alert
         )
         alert.addAction(UIAlertAction(title: "확인", style: .default) { _ in

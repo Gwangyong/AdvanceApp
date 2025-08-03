@@ -20,25 +20,56 @@ class CoreDataRepository {
     return appDelegate.persistentContainer.viewContext
   }
   
-  // MARK: saveBook
-  func saveBook(document: Document) {
-    guard let context else { return } // context = context
+  // MARK: save
+  func save(document: Document, isRecent: Bool = false, isSaved: Bool = false) {
+    guard let context else { return }
     
-    convertToBookList(document, context: context)
+    // 중복 제거
+    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isbn == %@", document.isbn) // 저장하려는 isbn과 Coredata에 중복 있나 확인
     
     do {
+      let matchedBook = try context.fetch(fetchRequest).first
+      var updateDocument = document
+      updateDocument.isRecent = isRecent || matchedBook?.isRecent ?? false
+      updateDocument.isSaved = isSaved || matchedBook?.isSaved ?? false
+      
+      if isRecent {
+        updateDocument.recentDate = Date()
+      }
+      if isSaved {
+        updateDocument.savedDate = Date()
+      }
+      
+      
+      // 기존 데이터 수저
+      if let matchedBook {
+        context.delete(matchedBook)
+      }
+
+      // 변환 후 저장
+      convertToBookList(updateDocument, context: context)
+      
       try context.save()
     } catch {
       print("error: \(error.localizedDescription)")
     }
   }
-  
+
   // MARK: fetchBooks
-  func fetchBooks() -> [Document] {
+  func fetchBooks(_ status: String) -> [Document] {
     guard let context else { return [] }
     
     // CoreData에서 BookList에 저장된 모든 객체들을 가져옴
     let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "%K == true", status) // status가 true인 책만
+    
+    if status == "isRecent" {
+      fetchRequest.sortDescriptors = [NSSortDescriptor(key: "recentDate", ascending: false)] // ascending: false -> 최신순
+    } else if status == "isSaved" {
+      fetchRequest.sortDescriptors = [NSSortDescriptor(key: "savedDate", ascending: false)]
+    }
+    fetchRequest.fetchLimit = 10 // fetchLimit: CoreDate에서 최신 10개만 가져옴
     
     do {
       let result = try context.fetch(fetchRequest)
@@ -52,6 +83,7 @@ class CoreDataRepository {
   // MARK: deleteAllBooks
   func deleteAllBooks() {
     let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isSaved == true")
     
     do {
       let books = try context?.fetch(fetchRequest)
@@ -90,6 +122,10 @@ private extension CoreDataRepository {
     book.authors = document.authors.joined(separator: ", ")
     book.price = Int64(document.price)
     book.isbn = document.isbn
+    book.isRecent = document.isRecent ?? false
+    book.isSaved = document.isSaved ?? false
+    book.recentDate = document.recentDate ?? Date()
+    book.savedDate = document.savedDate ?? Date()
   }
 
   // CoreData 정보 변환 (BookList -> Document)
@@ -101,7 +137,11 @@ private extension CoreDataRepository {
       price: Int(bookList.price),
       thumbnail: bookList.thumbnail ?? "",
       title: bookList.title ?? "",
-      translators: [] // 안쓰지만..
+      translators: [], // 안쓰지만..
+      isRecent: bookList.isRecent,
+      isSaved: bookList.isSaved,
+      recentDate: bookList.recentDate ?? Date(),
+      savedDate: bookList.savedDate ?? Date()
     )
   }
 }

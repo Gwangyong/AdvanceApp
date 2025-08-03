@@ -17,6 +17,7 @@ class BookSearchViewModel {
   
   // output: 결과값 담는 Observable View에서 구독해서 화면을 업데이트. 초기값은 []
   let searchResults = BehaviorRelay<[Document]>(value: [])
+  let recentBooks = BehaviorRelay<[Document]>(value: [])
   
   init() {
     bind()
@@ -35,6 +36,18 @@ class BookSearchViewModel {
     // 즉, .asObservable()을 직접 호출하지 않아도 bind(to:)에서 자동으로 처리가 가능하다 으아!!!!
     .bind(to: searchResults)
     .disposed(by: disposeBag) // 구독 끊기(돈 아끼자..)
+  }
+  
+  // MARK: 최근 본 책 불러오기
+  func loadRecentBooks() {
+    let books = CoreDataRepository.shared.fetchBooks(BookStatusKey.isRecent.rawValue)
+    recentBooks.accept(books) // accept: 새로운 값을 강제로 덮어쓰고, 구독중인 곳에 즉시 반영해줌
+  }
+  
+  // MARK: 최근 본 책 저장
+  func saveRecentBook(_ book: Document) {
+    CoreDataRepository.shared.save(document: book, isRecent: true)
+    loadRecentBooks()
   }
 
 }

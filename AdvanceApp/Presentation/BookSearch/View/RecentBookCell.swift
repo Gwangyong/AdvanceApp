@@ -55,4 +55,10 @@ class RecentBookCell: UICollectionViewCell {
       $0.leading.trailing.bottom.equalToSuperview()
     }
   }
+  
+  // MARK: configure
+  func configure(_ book: Document) {
+    bookImageView.setImage(urlString: book.thumbnail)
+    bookTitleLabel.text = book.title
+  }
 }
