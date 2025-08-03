@@ -78,6 +78,45 @@ class CoreDataRepository {
       print("error: \(error.localizedDescription)")
     }
   }
+  
+  // MARK: saveRecentBook
+  func saveRecentBook(document: Document) {
+    guard let context else { return }
+    
+    // 중복 제거
+    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isbn == %@", document.isbn) // 저장하려는 isbn과 Coredata에 중복 있나 확인
+    
+    do {
+      if let matchedBook = try context.fetch(fetchRequest).first { // 값이 있으면 실행. 없으면 first로 인해 nil이라 실행 x
+        context.delete(matchedBook)
+      }
+      
+      var newDocument = document
+      newDocument.isRecent = true // 중복 없으면 true로 변경해서 최근 본 책으로 만듦
+      
+      convertToBookList(newDocument, context: context)
+      try context.save()
+    } catch {
+      print("error: \(error.localizedDescription)")
+    }
+  }
+  
+  // MARK: fetchRecentBooks
+  func fetchRecentBooks() -> [Document] {
+    guard let context else { return [] }
+    
+    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
+    fetchRequest.predicate = NSPredicate(format: "isRecent == true")
+    
+    do {
+      let result = try context.fetch(fetchRequest)
+      return result.map { convertToDocument($0) } // 변환은 필수!
+    } catch {
+      print("error: \(error.localizedDescription)")
+      return []
+    }
+  }
 }
 
 
