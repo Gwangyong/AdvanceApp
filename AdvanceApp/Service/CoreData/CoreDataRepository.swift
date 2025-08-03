@@ -130,6 +130,7 @@ private extension CoreDataRepository {
     book.price = Int64(document.price)
     book.isbn = document.isbn
     book.isRecent = document.isRecent ?? false
+    book.isSaved = document.isSaved ?? false
   }
 
   // CoreData 정보 변환 (BookList -> Document)

@@ -174,7 +174,8 @@ class BookDetailViewController: UIViewController {
     
     saveButton.rx.tap
       .bind { [weak self] in
-        guard let self, let book = self.book else { return }
+        guard let self, var book = self.book else { return }
+        book.isSaved = true
         self.viewModel.save(document: book)
         
         let alert = UIAlertController(
