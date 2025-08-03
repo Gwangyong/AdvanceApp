@@ -33,8 +33,16 @@ class CoreDataRepository {
       var updateDocument = document
       updateDocument.isRecent = isRecent || matchedBook?.isRecent ?? false
       updateDocument.isSaved = isSaved || matchedBook?.isSaved ?? false
-
-      // 기존 데이터 삭제
+      
+      if isRecent {
+        updateDocument.recentDate = Date()
+      }
+      if isSaved {
+        updateDocument.savedDate = Date()
+      }
+      
+      
+      // 기존 데이터 수저
       if let matchedBook {
         context.delete(matchedBook)
       }
@@ -56,6 +64,13 @@ class CoreDataRepository {
     let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
     fetchRequest.predicate = NSPredicate(format: "%K == true", status) // status가 true인 책만
     
+    if status == "isRecent" {
+      fetchRequest.sortDescriptors = [NSSortDescriptor(key: "recentDate", ascending: false)] // ascending: false -> 최신순
+    } else if status == "isSaved" {
+      fetchRequest.sortDescriptors = [NSSortDescriptor(key: "savedDate", ascending: false)]
+    }
+    fetchRequest.fetchLimit = 10 // fetchLimit: CoreDate에서 최신 10개만 가져옴
+    
     do {
       let result = try context.fetch(fetchRequest)
       return result.map { convertToDocument($0) }
@@ -64,22 +79,6 @@ class CoreDataRepository {
       return []
     }
   }
-  
-//  // MARK: fetchRecentBooks
-//  func fetchRecentBooks() -> [Document] {
-//    guard let context else { return [] }
-//
-//    let fetchRequest: NSFetchRequest<BookList> = BookList.fetchRequest()
-//    fetchRequest.predicate = NSPredicate(format: "isRecent == true")
-//
-//    do {
-//      let result = try context.fetch(fetchRequest)
-//      return result.map { convertToDocument($0) } // 변환은 필수!
-//    } catch {
-//      print("error: \(error.localizedDescription)")
-//      return []
-//    }
-//  }
   
   // MARK: deleteAllBooks
   func deleteAllBooks() {
@@ -123,8 +122,10 @@ private extension CoreDataRepository {
     book.authors = document.authors.joined(separator: ", ")
     book.price = Int64(document.price)
     book.isbn = document.isbn
-    book.isRecent = document.isRecent ?? false
-    book.isSaved = document.isSaved ?? false
+    book.isRecent = document.isRecent
+    book.isSaved = document.isSaved
+    book.recentDate = document.recentDate
+    book.savedDate = document.savedDate
   }
 
   // CoreData 정보 변환 (BookList -> Document)
@@ -138,7 +139,9 @@ private extension CoreDataRepository {
       title: bookList.title ?? "",
       translators: [], // 안쓰지만..
       isRecent: bookList.isRecent,
-      isSaved: bookList.isSaved
+      isSaved: bookList.isSaved,
+      recentDate: bookList.recentDate ?? Date(),
+      savedDate: bookList.savedDate ?? Date()
     )
   }
 }

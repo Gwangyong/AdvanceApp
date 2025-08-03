@@ -82,7 +82,7 @@ class SavedBooksViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Document>()
         snapshot.appendSections([.main])
         snapshot.appendItems(books)
-        self?.dataSource.apply(snapshot, animatingDifferences: true)
+        self?.dataSource.apply(snapshot, animatingDifferences: false)
       })
       .disposed(by: disposeBag)
     
