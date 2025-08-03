@@ -122,10 +122,10 @@ private extension CoreDataRepository {
     book.authors = document.authors.joined(separator: ", ")
     book.price = Int64(document.price)
     book.isbn = document.isbn
-    book.isRecent = document.isRecent
-    book.isSaved = document.isSaved
-    book.recentDate = document.recentDate
-    book.savedDate = document.savedDate
+    book.isRecent = document.isRecent ?? false
+    book.isSaved = document.isSaved ?? false
+    book.recentDate = document.recentDate ?? Date()
+    book.savedDate = document.savedDate ?? Date()
   }
 
   // CoreData 정보 변환 (BookList -> Document)
