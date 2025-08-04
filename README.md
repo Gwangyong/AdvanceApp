@@ -131,8 +131,18 @@ AdvanceApp
 
 <br/>
 
+## Figma
+- https://www.figma.com/design/xwaNNQE9UP2nJJuHQ1r3rI/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Lg73XnnP6YINCxuj-1
+
+<br/>
+
 ## 📝 참고 사항
 
 - API Key는 별도 `.plist`에 분리하여 관리
 - 모든 셀은 재사용 가능한 커스텀 셀로 구성
 - ViewModel 내부에서 API 호출 및 데이터 변환 처리
+
+<br/>
+
+## 과제 제출용
+- Instrument Leaks: <img width="1775" height="837" alt="Image" src="https://github.com/user-attachments/assets/ccc35599-5489-43bc-af2f-fac37462e86d" />
