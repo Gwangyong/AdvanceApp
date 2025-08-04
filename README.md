@@ -132,7 +132,7 @@ AdvanceApp
 <br/>
 
 ## Figma
-- https://www.figma.com/design/xwaNNQE9UP2nJJuHQ1r3rI/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Lg73XnnP6YINCxuj-1
+- [Figma 주소](https://www.figma.com/design/xwaNNQE9UP2nJJuHQ1r3rI/%EC%A0%9C%EB%AA%A9-%EC%97%86%EC%9D%8C?node-id=0-1&t=Lg73XnnP6YINCxuj-1)
 
 <br/>
 
